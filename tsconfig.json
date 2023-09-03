@@ -21,8 +21,10 @@
         "noFallthroughCasesInSwitch": true,
         "baseUrl": ".",
         "paths": {
-            "src/*": ["./src/*"]
-        }
+            "src/*": ["src/*"],
+            "react-list-window": ["src/components/index.ts"]
+        },
+        "typeRoots": ["node_modules/@types", "src/components/index.d.ts"]
     },
     "include": ["src"],
     "references": [{ "path": "./tsconfig.node.json" }]
