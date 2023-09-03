@@ -1,4 +1,5 @@
-import { resolve } from "path";
+// @ts-ignore
+import path from "node:path";
 
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
@@ -18,7 +19,8 @@ export default defineConfig((configEnv) => ({
             linters: [new EsLinter({ configEnv })],
         }),
         dts({
-            include: ["src/component/"],
+            include: ["src/components/", "src/ts"],
+            insertTypesEntry: true,
         }),
     ],
     resolve: {
@@ -28,7 +30,7 @@ export default defineConfig((configEnv) => ({
     },
     build: {
         lib: {
-            entry: resolve("src", "components/index.ts"),
+            entry: path.resolve(__dirname, "src/components/index.ts"),
             name: PackageJSON.name,
             formats: ["es", "umd"],
             fileName: (format) => `${PackageJSON.name}.${format}.js`,
