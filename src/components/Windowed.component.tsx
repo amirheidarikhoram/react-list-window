@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useInViewport } from "ahooks";
-import { WindowedProps } from "src/ts";
-import { WindowedContext } from "src/contexts";
+import { WindowedProps } from "../ts";
+import { WindowedContext } from "../contexts";
 
 function Windowed({ children, isReference }: WindowedProps) {
     const containerDivRef = useRef<HTMLDivElement>(null);

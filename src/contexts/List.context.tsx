@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { ListContextActions, ListContextState } from "src/ts";
+import { ListContextActions, ListContextState } from "../ts";
 
 const INITIAL_STATE_ACTIONS: ListContextState<any> & ListContextActions = {
     data: [],

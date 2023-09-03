@@ -1,6 +1,6 @@
 import { useContext, useMemo } from "react";
-import { ListContext } from "src/contexts";
-import { DataProps, ListContextActions, ListState } from "src/ts";
+import { ListContext } from "../contexts";
+import { DataProps, ListContextActions, ListState } from "../ts";
 
 function Data<T>({ children }: DataProps<T>) {
     const context = useContext(ListContext) as ListState<T> & ListContextActions;

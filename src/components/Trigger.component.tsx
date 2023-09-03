@@ -1,7 +1,7 @@
 import { useInViewport } from "ahooks";
 import { useContext, useEffect, useRef, useState } from "react";
-import { ListContext } from "src/contexts";
-import { TriggerProps } from "src/ts";
+import { ListContext } from "../contexts";
+import { TriggerProps } from "../ts";
 
 function Trigger({ countEnters, onLoadMore, loadMore = true, children }: TriggerProps) {
     const containerDivRef = useRef<HTMLDivElement>(null);

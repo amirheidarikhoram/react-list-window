@@ -1,5 +1,5 @@
 import { createContext, useRef, useState } from "react";
-import { TOrientation, WindowedContextActions, WindowedContextState } from "src/ts";
+import { TOrientation, WindowedContextActions, WindowedContextState } from "../ts";
 
 const INITIAL_STATE_ACTIONS: WindowedContextState & WindowedContextActions = {
     defaultHeight: 0,

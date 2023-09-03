@@ -19,13 +19,12 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "baseUrl": ".",
+        // "baseUrl": ".",
         "paths": {
-            "src/*": ["src/*"],
-            "react-list-window": ["src/components/index.ts"]
+            "react-list-window": ["./src/components/index.ts"]
         },
         "typeRoots": ["node_modules/@types", "src/components/index.d.ts"]
     },
-    "include": ["src"],
+    // "include": ["src"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }

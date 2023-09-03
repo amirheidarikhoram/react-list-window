@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
-import { ListContext, WindowedProvider } from "src/contexts";
-import { ListProps, ListRef, ListState } from "src/ts";
+import { ListContext, WindowedProvider } from "../contexts";
+import { ListProps, ListRef, ListState } from "../ts";
 
 function List<T>(
     {
