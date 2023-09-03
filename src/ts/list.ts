@@ -21,7 +21,6 @@ export interface ListProps<T> extends PropsWithChildren, ListWindowedProps {
     apiFn: APIFunction<T>;
     pageSize?: number;
     overridePageSize?: boolean;
-    onUpdate?: (data: ListState<T>) => void;
     autoLoad?: boolean;
 }
 
