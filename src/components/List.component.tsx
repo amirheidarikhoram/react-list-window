@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import { ListContext, WindowedProvider } from "src/contexts";
 import { ListProps, ListRef, ListState } from "src/ts";
-import { Data } from "./Data.component";
 
 function List<T>(
     {
@@ -11,6 +10,7 @@ function List<T>(
         children,
         orientation = "vertical",
         fixedSize = true,
+        autoLoad = false,
     }: ListProps<T>,
     ref: React.ForwardedRef<ListRef<T>>
 ) {
@@ -23,7 +23,7 @@ function List<T>(
         pageSize,
         lastUpdateAt: Date.now(),
         hasNextPage: true,
-        loadedFromCache: false,
+        initialLoadDone: false,
     });
     const apiCancellationRef = useRef<any>();
 
@@ -47,7 +47,7 @@ function List<T>(
                     loading: false,
                     lastUpdateAt: Date.now(),
                     hasNextPage: res.hasNextPage,
-                    loadedFromCache: false,
+                    initialLoadDone: true,
                 }));
             })
             .catch((err) => {
@@ -57,7 +57,7 @@ function List<T>(
                     error: err,
                     loading: false,
                     lastUpdateAt: Date.now(),
-                    loadedFromCache: false,
+                    initialLoadDone: false,
                 }));
             })
             .finally(() => {
@@ -79,7 +79,7 @@ function List<T>(
                 pageSize: pageSize ?? data.pageSize,
                 hasNextPage: false,
                 lastUpdateAt: Date.now(),
-                loadedFromCache: false,
+                initialLoadDone: false,
             });
             handleDataLoad(1, pageSize ?? data.pageSize);
         },
@@ -94,7 +94,7 @@ function List<T>(
     }, [pageSize, data.pageSize, overridePageSize]);
 
     useEffect(() => {
-        handleDataLoad(0, data.pageSize);
+        autoLoad && handleDataLoad(0, data.pageSize);
     }, []);
 
     useImperativeHandle(ref, () => ({
@@ -118,7 +118,7 @@ function List<T>(
                         flexDirection: orientation === "vertical" ? "column" : "row",
                     }}
                 >
-                    <Data<T>>{children}</Data>
+                    {children}
                 </div>
             </WindowedProvider>
         </ListContext.Provider>

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import { WindowedContextState } from "./windowed";
 
 export type APIFunction<T> = (
@@ -17,12 +17,12 @@ export interface PaginatedData<T> {
     hasNextPage: boolean;
 }
 
-export interface ListProps<T> extends ListWindowedProps {
+export interface ListProps<T> extends PropsWithChildren, ListWindowedProps {
     apiFn: APIFunction<T>;
     pageSize?: number;
     overridePageSize?: boolean;
     onUpdate?: (data: ListState<T>) => void;
-    children?: (state: ListState<T> & ListContextActions) => ReactNode;
+    autoLoad?: boolean;
 }
 
 export interface ListState<T> {
@@ -33,7 +33,7 @@ export interface ListState<T> {
     pageSize: number;
     lastUpdateAt: number;
     hasNextPage: boolean;
-    loadedFromCache: boolean;
+    initialLoadDone: boolean;
 }
 
 export interface ListRef<T> {
@@ -49,4 +49,6 @@ export interface ListContextActions {
     handleReset: () => void;
 }
 
-export type DataProps<T> = Pick<ListProps<T>, "children">;
+export interface DataProps<T> {
+    children?: (state: ListState<T> & ListContextActions) => ReactNode;
+}

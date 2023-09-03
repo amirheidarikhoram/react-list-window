@@ -9,7 +9,7 @@ const INITIAL_STATE_ACTIONS: ListContextState<any> & ListContextActions = {
     loading: false,
     lastUpdateAt: 0,
     hasNextPage: false,
-    loadedFromCache: false,
+    initialLoadDone: false,
     handleLoadMore: () => {},
     handleReset: () => {},
 };

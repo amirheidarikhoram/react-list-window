@@ -1,59 +1,64 @@
 import { useMemo } from "react";
 import Posts from "./assets/posts.json";
 import { APIFunction, ListProps } from "src/ts";
-import { List, Post, PostProps, Windowed } from "src/components";
+import { Data, Trigger, List, Post, PostProps, Windowed } from "src/components";
 
 function App() {
-    const manyPosts = useMemo(() => {
-        const list = [];
-
-        for (let i = 0; i < 10000; i++) {
-            list.push(...Posts);
-        }
-
-        return list;
-    }, []);
-
     const apiFn: APIFunction<any> = (page, pageSize, signal) =>
         new Promise((resolve, reject) => {
             signal.addEventListener("abort", () => {
                 reject(new DOMException("Aborted", "AbortError"));
             });
 
-            resolve({
-                data: manyPosts.slice(page * pageSize, (page + 1) * pageSize),
-                hasNextPage: (page + 1) * pageSize < manyPosts.length,
+            const res = {
+                data: Posts
+                    // .slice(page * pageSize, (page + 1) * pageSize)
+                    .map((p, i) => ({
+                        ...p,
+                        id: page * pageSize + i,
+                    })),
+                hasNextPage: page > 1 ? false : true,
                 page,
                 pageSize,
-                total: manyPosts.length,
-            });
+                total: 100000,
+            };
+
+            setTimeout(() => {
+                resolve(res);
+            }, 200);
         });
 
     const props = useMemo(
         (): ListProps<PostProps["post"]> => ({
             apiFn,
             orientation: "vertical",
-            pageSize: 10000,
+            pageSize: 100,
             fixedSize: false,
         }),
         []
     );
 
     return (
-        <>
-            Hello
-            <div>
-                <List {...props}>
-                    {(state) =>
-                        state.data.map((d) => (
-                            <Windowed key={d.id}>
-                                <Post post={d} />
-                            </Windowed>
-                        ))
-                    }
-                </List>
-            </div>
-        </>
+        <List {...props}>
+            <Data<Post>>
+                {(state) =>
+                    state.data.map((d) => (
+                        <Windowed key={d.id}>
+                            <Post post={d} />
+                        </Windowed>
+                    ))
+                }
+            </Data>
+            <Trigger countEnters>
+                {({ handleLoadMore, enterCount, loading, hasNextPage }) => (
+                    <button onClick={handleLoadMore}>
+                        Load More {loading && "Loading!"} enterCount: {enterCount} hasNextPage{" "}
+                        {hasNextPage ? "YES" : "NO"}
+                        {hasNextPage}
+                    </button>
+                )}
+            </Trigger>
+        </List>
     );
 }
 
